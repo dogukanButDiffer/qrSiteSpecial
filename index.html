@@ -11,53 +11,124 @@
     h1{margin:0 0 8px;font-size:28px}
     p{margin:10px 0;opacity:.92;line-height:1.6}
     .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
-    button{border:0;border-radius:14px;padding:10px 14px;cursor:pointer;font-weight:600}
+    button{border:0;border-radius:14px;padding:10px 14px;cursor:pointer;font-weight:700}
     button.secondary{background:rgba(255,255,255,.12);color:#fff}
     button.primary{background:#fff;color:#111}
     .hidden{display:none}
     img{max-width:100%;border-radius:16px;border:1px solid rgba(255,255,255,.15)}
     .muted{opacity:.75;font-size:14px}
+    input{width:100%;box-sizing:border-box;border-radius:14px;border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.06);color:#fff;padding:12px 14px;font-size:16px;outline:none}
+    .row{display:flex;gap:10px;align-items:center}
+    .toast{margin-top:10px;opacity:.85}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="card" id="step1">
-      <h1>Merhaba ❤️</h1>
-      <p>Buraya kadar geldiysen… demek ki merak ettin :)</p>
-      <div class="btns">
-        <button class="primary" id="go">Devam et</button>
+
+    <!-- PIN KİLİDİ -->
+    <div class="card" id="lock">
+      <h1>Devam etmek için PIN 🔒</h1>
+      <p class="muted">Bu sayfa sadece “biz” için.</p>
+      <div class="row">
+        <input id="pin" inputmode="numeric" placeholder="Örn: 2406" maxlength="12" />
+        <button class="primary" id="unlock">Aç</button>
       </div>
-      <p class="muted">Not: Bu sayfa sadece senin için.</p>
+      <div class="btns">
+        <button class="secondary" id="hint">İpucu</button>
+        <button class="secondary" id="reset" title="Bu cihazda kayıtlıysa siler">Sıfırla</button>
+      </div>
+      <p class="toast" id="msg"></p>
     </div>
 
-    <div class="card hidden" id="step2" style="margin-top:14px;">
-      <h1>Sana bir soru</h1>
-      <p><b>Beni nasıl seviyorsun?</b></p>
-      <div class="btns">
-        <button class="secondary answer">Sessiz ama derinden</button>
-        <button class="secondary answer">Çok ama karışık</button>
-        <button class="secondary answer">Her şeyimle</button>
-      </div>
-    </div>
+    <!-- İÇERİK -->
+    <div id="content" class="hidden">
 
-    <div class="card hidden" id="step3" style="margin-top:14px;">
-      <h1>O zaman…</h1>
-      <p id="reply"></p>
-      <p>Kartondaki yazıda bazı şeyleri yarım bıraktım; çünkü bazı cümleler kağıda sığmıyor.</p>
-      <p>İyi ki varsın. İyi ki buradasın.</p>
-
-      <div id="today" class="hidden" style="margin-top:18px;">
-        <h2 style="margin:0 0 8px;font-size:20px;">Bugün 🤍</h2>
-        <p class="muted" id="date"></p>
-        <img src="images/bugun.jpg" alt="Bugünün fotoğrafı" />
+      <div class="card" id="step1">
+        <h1>Merhaba ❤️</h1>
+        <p>Buraya kadar geldiysen… demek ki merak ettin :)</p>
+        <div class="btns">
+          <button class="primary" id="go">Devam et</button>
+        </div>
+        <p class="muted">Not: Bu sayfa sadece senin için.</p>
       </div>
 
-      <p class="muted" style="margin-top:14px;">(Bugünün fotoğrafını ekleyince bu bölüm açılacak.)</p>
+      <div class="card hidden" id="step2" style="margin-top:14px;">
+        <h1>Sana bir soru</h1>
+        <p><b>Beni nasıl seviyorsun?</b></p>
+        <div class="btns">
+          <button class="secondary answer">Sessiz ama derinden</button>
+          <button class="secondary answer">Çok ama karışık</button>
+          <button class="secondary answer">Her şeyimle</button>
+        </div>
+      </div>
+
+      <div class="card hidden" id="step3" style="margin-top:14px;">
+        <h1>O zaman…</h1>
+        <p id="reply"></p>
+        <p>Kartondaki yazıda bazı şeyleri yarım bıraktım; çünkü bazı cümleler kağıda sığmıyor.</p>
+        <p>İyi ki varsın. İyi ki buradasın.</p>
+
+        <div id="today" class="hidden" style="margin-top:18px;">
+          <h2 style="margin:0 0 8px;font-size:20px;">Bugün 🤍</h2>
+          <p class="muted" id="date"></p>
+          <img src="images/bugun.jpg" alt="Bugünün fotoğrafı" />
+        </div>
+
+        <p class="muted" style="margin-top:14px;">(Bugünün fotoğrafını ekleyince bu bölüm açılacak.)</p>
+      </div>
+
     </div>
   </div>
 
 <script>
-  const step1 = document.getElementById('step1');
+  // ====== PIN AYARI ======
+  // Burayı değiştir: kendi PIN'in (ör: "2406")
+  const CORRECT_PIN = "1602";
+
+  const lock = document.getElementById('lock');
+  const content = document.getElementById('content');
+  const pinInput = document.getElementById('pin');
+  const msg = document.getElementById('msg');
+
+  function unlock() {
+    const pin = pinInput.value.trim();
+    if (pin === CORRECT_PIN) {
+      localStorage.setItem('unlocked', 'yes');
+      lock.classList.add('hidden');
+      content.classList.remove('hidden');
+      msg.textContent = "";
+      // küçük animasyon hissi
+      document.getElementById('step1').scrollIntoView({behavior:'smooth', block:'start'});
+    } else {
+      msg.textContent = "PIN yanlış 🙈 Bir daha dene.";
+      pinInput.focus();
+      pinInput.select();
+    }
+  }
+
+  document.getElementById('unlock').addEventListener('click', unlock);
+  pinInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') unlock();
+  });
+
+  document.getElementById('hint').addEventListener('click', () => {
+    msg.textContent = "İpucu: Bizim için anlamlı bir tarih/sayı 😉";
+    pinInput.focus();
+  });
+
+  document.getElementById('reset').addEventListener('click', () => {
+    localStorage.removeItem('unlocked');
+    msg.textContent = "Bu cihaz için kilit sıfırlandı.";
+  });
+
+  // Önceden açılmışsa direkt göster
+  if (localStorage.getItem('unlocked') === 'yes') {
+    lock.classList.add('hidden');
+    content.classList.remove('hidden');
+  }
+
+  // ====== SAYFA ETKİLEŞİMİ ======
   const step2 = document.getElementById('step2');
   const step3 = document.getElementById('step3');
   const reply = document.getElementById('reply');
@@ -75,8 +146,7 @@
     });
   });
 
-  // Bugün bölümünü otomatik açma denemesi:
-  // Eğer images/bugun.jpg gerçekten varsa, görünür yapacağız.
+  // ====== BUGÜN FOTOĞRAFI VARSA GÖSTER ======
   const img = new Image();
   img.onload = () => {
     const today = document.getElementById('today');
