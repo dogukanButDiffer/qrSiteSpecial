@@ -83,7 +83,7 @@
     /* ===== KAPAK / BAŞLIK ===== */
     .hero{
       text-align:center;
-      padding: 14px 10px 0;
+      padding: 14px 0 0;
       margin-bottom: 14px;
     }
     .hero .pill{
@@ -99,55 +99,48 @@
       opacity:.92;
     }
 
-    /* === YENİ: İSİM + AVATAR KAPSAYICI === */
-    .name-wrap{
-      position: relative;
-      display: inline-block;
+    /* Başlık satırı: avatar + isim + avatar, tek satırda ve taşma yok */
+    .title-row{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
       margin-top: 14px;
+      margin-bottom: 6px;
+      max-width: 100%;
+      flex-wrap: nowrap;
+      padding: 0 4px;
     }
-    /* hero h1'i eskisi gibi kalsın ama avatarlara yer açılsın */
-    .name-wrap h1{
-      margin:14px 0 6px;
-      font-size:34px;
-      letter-spacing:.4px;
-      padding: 14px 54px;
-      display: inline-block;
-
-      white-space: nowrap;     /* TEK SATIR */
-      overflow: hidden;        /* güvenlik */
-      text-overflow: ellipsis; /* çok aşırı dar olursa ... */
+    .title-row h1{
+      margin: 0;
+      font-size: 34px;
+      letter-spacing: .4px;
+      white-space: nowrap;
+      flex: 0 1 auto;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.2;
     }
 
     .avatar-slot{
-      position:absolute;
-      top: -18px;            /* aynı yükseklik */
-      width:46px;
-      height:46px;
-      border-radius:50%;
-      border:2px solid rgba(255,255,255,.35);
+      width: 46px;
+      height: 46px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.35);
       box-shadow: 0 10px 24px rgba(0,0,0,.25);
       background: rgba(255,255,255,.08);
-      overflow:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
-
       box-sizing: border-box;
       transform: translate3d(0, 0, 0);
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
-    }
-    
-    .avatar-slot.left{
-      left: -18px;          /* sol köşeye net sabitle */
-      transform: translate3d(0, 0, 0);
-    }
-    
-    .avatar-slot.right{
-      right: -18px;         /* sağ köşeye net sabitle */
-      transform: translate3d(0, 0, 0);
     }
 
     .avatar{
@@ -175,7 +168,7 @@
     /* === YENİ BİTİŞ === */
 
     .hero h1{
-      /* name-wrap içindeki h1 ile override ediliyor */
+      /* title-row içindeki h1 stilleri yukarıda */
       margin: 0;
     }
     .hero .sub{
@@ -301,22 +294,20 @@
     }
     .heart:before{left:-5px;top:0}
     .heart:after{left:0;top:-5px}
-    /* iPhone küçük ekranlarda başlık tek satır kalsın */
-    @media (max-width: 390px){
-      .name-wrap h1{
-        font-size: 30px;
-        padding: 14px 50px;
-      }
-      .avatar-slot{
-        width:42px;
-        height:42px;
-      }
+    /* Mobil: başlık ve avatarlar ekrana sığsın, kayık olmasın */
+    @media (max-width: 430px){
+      .title-row h1{ font-size: 26px; }
+      .title-row{ gap: 8px; }
+      .avatar-slot{ width: 42px; height: 42px; }
     }
-    @media (max-width: 350px){
-      .name-wrap h1{
-        font-size: 28px;
-        padding: 14px 46px;
-      }
+    @media (max-width: 380px){
+      .title-row h1{ font-size: 22px; }
+      .title-row{ gap: 6px; padding: 0 2px; }
+      .avatar-slot{ width: 38px; height: 38px; }
+    }
+    @media (max-width: 340px){
+      .title-row h1{ font-size: 19px; }
+      .avatar-slot{ width: 34px; height: 34px; }
     }
 
     @supports (-webkit-touch-callout: none){
@@ -356,17 +347,13 @@
       <div class="hero fadeIn">
         <div class="pill">2. YIL DÖNÜMÜMÜZ <span class="heart"></span></div>
 
-        <div class="name-wrap">
-          <!-- SOL: GÜLŞAH -->
-          <div class="avatar-slot left">
+        <div class="title-row">
+          <div class="avatar-slot">
             <img class="avatar" id="avG" src="images/gulsah.jpg" alt="Gülşah">
             <div class="avatar-fallback">🤍</div>
           </div>
-
           <h1>Gülşah&nbsp;&amp;&nbsp;Doğukan</h1>
-
-          <!-- SAĞ: DOĞUKAN -->
-          <div class="avatar-slot right">
+          <div class="avatar-slot">
             <img class="avatar" id="avD" src="images/dogukan.jpg" alt="Doğukan">
             <div class="avatar-fallback">🤍</div>
           </div>
