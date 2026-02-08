@@ -3,19 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sürpriz ❤️</title>
+  <title>Sürpriz 🤍</title>
   <style>
     :root{
       --bg:#0f0f12;
       --card:rgba(255,255,255,.06);
       --border:rgba(255,255,255,.12);
-      --muted:rgba(255,255,255,.75);
+      --muted:rgba(255,255,255,.76);
       --txt:#fff;
       --btn:#fff;
       --btnTxt:#111;
+      --bad:#ffb7b7;
+      --good:#bfffcf;
     }
     body{margin:0;font-family:system-ui;background:var(--bg);color:var(--txt);min-height:100vh}
-    .wrap{width:min(820px,92vw);padding:26px;margin:0 auto}
+    .wrap{width:min(860px,92vw);padding:26px;margin:0 auto}
     .card{
       background:var(--card);
       border:1px solid var(--border);
@@ -33,11 +35,13 @@
       border:0;border-radius:14px;padding:10px 14px;
       cursor:pointer;font-weight:750;
       transform: translateY(0);
-      transition: transform .08s ease, opacity .12s ease;
+      transition: transform .08s ease, opacity .12s ease, filter .12s ease;
+      user-select:none;
     }
     button:active{transform: translateY(1px)}
     button.primary{background:var(--btn);color:var(--btnTxt)}
     button.secondary{background:rgba(255,255,255,.12);color:#fff}
+    button.secondary:hover{filter:brightness(1.08)}
     input{
       width:100%;box-sizing:border-box;border-radius:14px;
       border:1px solid rgba(255,255,255,.18);
@@ -48,19 +52,32 @@
     .hidden{display:none}
     .sp{height:14px}
     .line{height:1px;background:rgba(255,255,255,.10);margin:14px 0}
-    .gallery{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
-    @media (min-width:720px){ .gallery{grid-template-columns:1fr 1fr} }
-    img{width:100%;display:block;border-radius:16px;border:1px solid rgba(255,255,255,.15)}
     .tag{
       display:inline-flex;align-items:center;gap:8px;
       padding:6px 10px;border-radius:999px;
       border:1px solid rgba(255,255,255,.14);
       background:rgba(255,255,255,.06);
-      font-size:13px;opacity:.9
+      font-size:13px;opacity:.92
     }
-    .toast{margin-top:10px;opacity:.85}
+    .toast{margin-top:10px;opacity:.9}
+    .ok{color:var(--good)}
+    .bad{color:var(--bad)}
     .fadeIn{animation: fadeIn .25s ease-out}
     @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+    .gallery{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
+    @media (min-width:720px){ .gallery{grid-template-columns:1fr 1fr} }
+    img{width:100%;display:block;border-radius:16px;border:1px solid rgba(255,255,255,.15)}
+
+    /* yanlış cevapta minik sallama */
+    .shake{animation: shake .22s ease-in-out}
+    @keyframes shake{
+      0%{transform:translateX(0)}
+      25%{transform:translateX(-6px)}
+      50%{transform:translateX(6px)}
+      75%{transform:translateX(-4px)}
+      100%{transform:translateX(0)}
+    }
   </style>
 </head>
 <body>
@@ -71,15 +88,18 @@
       <div class="tag">🔒 Sadece “biz” için</div>
       <div class="sp"></div>
       <h1>Devam etmek için PIN</h1>
-      <p class="muted">Bu sayfa linki bilenlere açık olabilir; ama içerik PIN’siz görünmez.</p>
+      <p class="muted">Bunu görebilen çok kişi olabilir… ama içeriği yalnızca sen görebil.</p>
+
       <div class="row">
         <input id="pin" inputmode="numeric" placeholder="Örn: 2406" maxlength="12" />
         <button class="primary" id="unlock">Aç</button>
       </div>
+
       <div class="btns">
         <button class="secondary" id="hint">İpucu</button>
         <button class="secondary" id="reset" title="Bu cihazda kayıtlıysa siler">Sıfırla</button>
       </div>
+
       <p class="toast" id="msg"></p>
     </div>
 
@@ -88,11 +108,11 @@
 
       <!-- 1) Giriş -->
       <div class="card fadeIn" id="step1">
-        <div class="tag">❤️ Hoş geldin</div>
+        <div class="tag">🤍 Hoş geldin bebiş</div>
         <div class="sp"></div>
         <h1>Merhaba</h1>
-        <p>Buraya kadar okuduysan… demek ki merak ettin :)</p>
-        <p class="muted">Hazırsan küçük bir devamı var.</p>
+        <p>Buraya kadar gerçekten okuduysan… bu benim için çok kıymetli.</p>
+        <p class="muted">Şimdi sana küçük bir şey soracağım.</p>
         <div class="btns">
           <button class="primary" id="go1">Devam et</button>
         </div>
@@ -100,16 +120,22 @@
 
       <div class="sp"></div>
 
-      <!-- 2) Soru -->
+      <!-- 2) Soru: Beni ne kadar seviyorsun -->
       <div class="card hidden fadeIn" id="step2">
-        <div class="tag">✨ Küçük bir soru</div>
+        <div class="tag">✨ Minik test</div>
         <div class="sp"></div>
-        <h1>Sana bir şey soracağım</h1>
-        <p><b>Beni nasıl seviyorsun?</b></p>
-        <div class="btns">
-          <button class="secondary answer">Sessiz ama derinden</button>
-          <button class="secondary answer">Çok ama karışık</button>
-          <button class="secondary answer">Her şeyimle</button>
+        <h1>Beni ne kadar seviyorsun?</h1>
+        <p class="muted">Dikkat: Tek doğru cevap var 😌</p>
+
+        <div class="btns" id="loveBtns">
+          <button class="secondary love" data-choice="wrong">Çok (ama söyleyemem)</button>
+          <button class="secondary love" data-choice="wrong">Fazla (itiraf ediyorum)</button>
+          <button class="secondary love" data-choice="correct">Tarif edemeyecek kadar</button>
+        </div>
+
+        <p class="toast muted" id="loveHint"></p>
+        <div class="btns hidden" id="afterCorrect">
+          <button class="primary" id="go2">Tamam… devamı var</button>
         </div>
       </div>
 
@@ -117,68 +143,68 @@
 
       <!-- 3) Devam metni -->
       <div class="card hidden fadeIn" id="step3">
-        <div class="tag">🫶 Devamı burada</div>
+        <div class="tag">🫶 Deftere sığmayanlar</div>
         <div class="sp"></div>
-        <h1>O zaman…</h1>
-        <p id="reply"></p>
+        <h1>Kısa bir devam</h1>
 
-        <div class="line"></div>
-
-        <p>Kartondaki yazıda bazı şeyleri yarım bıraktım; çünkü bazı cümleler kağıda sığmıyor.</p>
-        <p>Seninle ilgili sevdiğim şeyler küçük değil: bazen bir bakışın, bazen “tam o an” güldüğün halin…</p>
-        <p class="muted">Aşağıda küçük bir bölüm daha var.</p>
+        <p>Kartona yazarken bazı yerlerde durdum… çünkü bazı cümleler kağıda değil, kalbe yazılıyor.</p>
+        <p>Seninle her şey büyük olmak zorunda değil: aynı masada oturmak, aynı şarkıyı defalarca dinlemek, bazen sadece “yan yana” olmak bile yeter.</p>
+        <p class="muted">Aşağıda bizim anlarımızdan birkaç parça var.</p>
 
         <div class="btns">
-          <button class="primary" id="go2">Devamını gör</button>
+          <button class="primary" id="go3">Fotoğraflara geç</button>
         </div>
       </div>
 
       <div class="sp"></div>
 
-      <!-- 4) İlk date foto(lar) -->
+      <!-- 4) Fotoğraflar -->
       <div class="card hidden fadeIn" id="memories">
-        <div class="tag">📸 İlk anlar</div>
+        <div class="tag">📸 Bizden</div>
         <div class="sp"></div>
-        <h1>Bu fotoğraflar…</h1>
-        <p>İlk zamanlarımızdan. Çünkü bazı anlar “kanıt” gibi: iyi ki olmuşuz.</p>
+        <h1>Bizim anlarımızdan bazıları…</h1>
+        <p>Fotoğraflar konuşsun, yazılar fısıldasın.</p>
 
-        <!-- Buraya 1-2 foto koyacaksın -->
         <div class="gallery">
           <div>
-            <img src="images/ilk1.jpg" alt="İlk date - 1">
-            <p class="muted">Buraya kısa bir not yazabilirsin. (Örn: “Burada çok güzeldin.”)</p>
+            <img src="images/ilk1.jpg" alt="Fotoğraf 1">
+            <p class="muted">Buraya kısa bir not. (Sonra birlikte yazacağız.)</p>
           </div>
           <div>
-            <img src="images/ilk2.jpg" alt="İlk date - 2">
-            <p class="muted">Bir cümle de buraya. (Örn: “Gülüşün…”)</p>
+            <img src="images/ilk2.jpg" alt="Fotoğraf 2">
+            <p class="muted">Buraya kısa bir not. (Sonra birlikte yazacağız.)</p>
           </div>
         </div>
 
         <div class="line"></div>
 
-        <p><b>Bunu okurken ne hissediyorsun?</b></p>
+        <p class="muted">Bu satırları yazarken kafamda hep aynı şarkı vardı… <b>Dilerim</b>.</p>
+
+        <div class="line"></div>
+
+        <p><b>Şu an ne hissediyorsun?</b></p>
         <div class="btns">
           <button class="secondary feel">Gülümsüyorum</button>
           <button class="secondary feel">Biraz duygulandım</button>
           <button class="secondary feel">Kalbim pıt pıt</button>
         </div>
 
-        <p class="muted hidden" id="feelReply" style="margin-top:12px;"></p>
+        <p class="toast muted hidden" id="feelReply" style="margin-top:12px;"></p>
 
         <div class="btns" style="margin-top:18px;">
-          <button class="primary" id="go3">Son sayfa gibi…</button>
+          <button class="primary" id="go4">Son bir şey daha</button>
         </div>
       </div>
 
       <div class="sp"></div>
 
-      <!-- 5) Final + Bugün -->
+      <!-- 5) Final -->
       <div class="card hidden fadeIn" id="final">
-        <div class="tag">🌙 Son bir şey</div>
+        <div class="tag">🌙 Final</div>
         <div class="sp"></div>
         <h1>Bitti sandın ama…</h1>
-        <p>Kağıt bitti belki. Ama hisler bitmedi.</p>
-        <p><b>Seni seçiyorum.</b> Bugün, yarın… ve daha sonra da.</p>
+        <p>Kağıt bitti belki. Ama benim seninle ilgili niyetim bitmedi.</p>
+        <p><b>Seni seçiyorum bebiş.</b> Bugün, yarın… ve bir gün aynı evde sıradan bir günü birlikte yaşarken de.</p>
 
         <div id="today" class="hidden" style="margin-top:18px;">
           <div class="line"></div>
@@ -195,8 +221,11 @@
   </div>
 
 <script>
-  // ===== PIN =====
-  const CORRECT_PIN = "1602"; // <-- burayı değiştir
+  // =========================
+  // 1) PIN AYARI
+  // =========================
+  const CORRECT_PIN = "1602"; // <-- BURAYI DEĞİŞTİR (ör: yıldönümü / özel sayı)
+
   const lock = document.getElementById('lock');
   const content = document.getElementById('content');
   const pinInput = document.getElementById('pin');
@@ -205,7 +234,7 @@
   function unlock() {
     const pin = pinInput.value.trim();
     if (pin === CORRECT_PIN) {
-      localStorage.setItem('unlocked', 'yes');
+      localStorage.setItem('unlocked', 'yes'); // aynı cihazda tekrar sormasın
       lock.classList.add('hidden');
       content.classList.remove('hidden');
       msg.textContent = "";
@@ -214,62 +243,104 @@
       msg.textContent = "PIN yanlış 🙈 Bir daha dene.";
       pinInput.focus();
       pinInput.select();
+      lock.classList.remove('shake'); void lock.offsetWidth; lock.classList.add('shake');
     }
   }
+
   document.getElementById('unlock').addEventListener('click', unlock);
   pinInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') unlock(); });
+
   document.getElementById('hint').addEventListener('click', () => {
     msg.textContent = "İpucu: Bizim için anlamlı bir tarih/sayı 😉";
     pinInput.focus();
   });
+
   document.getElementById('reset').addEventListener('click', () => {
     localStorage.removeItem('unlocked');
     msg.textContent = "Bu cihaz için kilit sıfırlandı.";
   });
+
   if (localStorage.getItem('unlocked') === 'yes') {
     lock.classList.add('hidden');
     content.classList.remove('hidden');
   }
 
-  // ===== AKIŞ =====
+  // =========================
+  // 2) AKIŞ
+  // =========================
   const step2 = document.getElementById('step2');
   const step3 = document.getElementById('step3');
   const memories = document.getElementById('memories');
   const final = document.getElementById('final');
-  const reply = document.getElementById('reply');
 
   document.getElementById('go1').addEventListener('click', () => {
     step2.classList.remove('hidden');
     step2.scrollIntoView({behavior:'smooth', block:'start'});
   });
 
-  document.querySelectorAll('.answer').forEach(btn => {
+  // =========================
+  // 3) "Beni ne kadar seviyorsun?" - tek doğru cevap
+  // =========================
+  const loveHint = document.getElementById('loveHint');
+  const afterCorrect = document.getElementById('afterCorrect');
+  const loveBtns = document.getElementById('loveBtns');
+
+  function setLoveHint(text, cls) {
+    loveHint.classList.remove('ok','bad','muted');
+    loveHint.classList.add(cls);
+    loveHint.textContent = text;
+  }
+
+  loveBtns.querySelectorAll('.love').forEach(btn => {
     btn.addEventListener('click', () => {
-      step3.classList.remove('hidden');
-      reply.textContent = `"${btn.textContent}"… Ben de seni tam olarak böyle seviyorum.`;
-      step3.scrollIntoView({behavior:'smooth', block:'start'});
+      const choice = btn.getAttribute('data-choice');
+
+      if (choice === 'correct') {
+        // doğru cevap
+        setLoveHint("Doğru cevap ✅ Ben de seni tam olarak bu kadar seviyorum bebiş. 🤍", "ok");
+        afterCorrect.classList.remove('hidden');
+
+        // yanlış butonları hafif soluk yapalım (hala tıklanabilir kalsın istersen)
+        loveBtns.querySelectorAll('.love').forEach(b => {
+          b.style.opacity = (b.getAttribute('data-choice') === 'correct') ? "1" : ".55";
+        });
+
+      } else {
+        // yanlış cevap: tatlı şekilde reddet
+        setLoveHint("Hımm… olmadı bebiş 😌 Biraz daha düşün. (Tek doğru var.)", "bad");
+        // küçük sallama efekti
+        step2.classList.remove('shake'); void step2.offsetWidth; step2.classList.add('shake');
+      }
     });
   });
 
   document.getElementById('go2').addEventListener('click', () => {
+    step3.classList.remove('hidden');
+    step3.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  document.getElementById('go3').addEventListener('click', () => {
     memories.classList.remove('hidden');
     memories.scrollIntoView({behavior:'smooth', block:'start'});
   });
 
+  // "ne hissediyorsun" cevabı
   const feelReply = document.getElementById('feelReply');
   document.querySelectorAll('.feel').forEach(btn => {
     btn.addEventListener('click', () => {
       feelReply.classList.remove('hidden');
-      feelReply.textContent = `Ben de bunu hazırlarken: "${btn.textContent}". 🤍`;
+      feelReply.textContent = `Ben de bunları hazırlarken: "${btn.textContent}". 🤍`;
     });
   });
 
-  document.getElementById('go3').addEventListener('click', () => {
+  document.getElementById('go4').addEventListener('click', () => {
     final.classList.remove('hidden');
     final.scrollIntoView({behavior:'smooth', block:'start'});
   });
 
-  // ===== BUGÜN FOTOĞRAFI VARSA GÖSTER =====
+  // =========================
+  // 4) BUGÜN FOTOĞRAFI VARSA GÖSTER
+  // =========================
   const img = new Image();
   img.onload = () => {
     const today = document.getElementById('today');
