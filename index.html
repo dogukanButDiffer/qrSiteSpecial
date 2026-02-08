@@ -88,8 +88,12 @@
       margin:14px 0 6px;
       font-size:34px;
       letter-spacing:.4px;
-      padding: 14px 54px; /* sağ/sol avatarlara alan */
+      padding: 14px 54px;
       display: inline-block;
+
+      white-space: nowrap;     /* TEK SATIR */
+      overflow: hidden;        /* güvenlik */
+      text-overflow: ellipsis; /* çok aşırı dar olursa ... */
     }
 
     .avatar-slot{
@@ -259,6 +263,23 @@
     }
     .heart:before{left:-5px;top:0}
     .heart:after{left:0;top:-5px}
+    /* iPhone küçük ekranlarda başlık tek satır kalsın */
+    @media (max-width: 390px){
+      .name-wrap h1{
+        font-size: 30px;
+        padding: 14px 50px;
+      }
+      .avatar-slot{
+        width:42px;
+        height:42px;
+      }
+    }
+    @media (max-width: 350px){
+      .name-wrap h1{
+        font-size: 28px;
+        padding: 14px 46px;
+      }
+    }
   </style>
 </head>
 
@@ -299,7 +320,7 @@
             <div class="avatar-fallback">🤍</div>
           </div>
 
-          <h1>Gülşah & Doğukan</h1>
+          <h1>Gülşah&nbsp;&amp;&nbsp;Doğukan</h1>
 
           <!-- SAĞ: DOĞUKAN -->
           <div class="avatar-slot right">
