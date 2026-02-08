@@ -343,6 +343,77 @@
     @supports (-webkit-touch-callout: none){
       body{ background-attachment: scroll; }
     }
+
+    /* ===== 8. HEDİYE KARTLARI BÖLÜMÜ - stiller ===== */
+    .gift-cards{
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .gift-card{
+      aspect-ratio: 1;
+      border-radius: 18px;
+      border: 2px solid rgba(255,255,255,.25);
+      background: rgba(255,255,255,.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .2s ease;
+      -webkit-tap-highlight-color: transparent;
+      padding: 12px;
+      box-sizing: border-box;
+      min-height: 100px;
+    }
+    .gift-card:active{ transform: scale(0.98); }
+    .gift-card.closed:hover{ box-shadow: 0 8px 24px rgba(255,77,109,.2); }
+    .gift-card.closed .gift-card-number,
+    .gift-card.closed .gift-card-note{ display: none; }
+    .gift-card.closed .gift-card-placeholder{ display: flex; }
+    .gift-card.open{ pointer-events: none; border-color: rgba(255,77,109,.5); }
+    .gift-card.open .gift-card-placeholder{ display: none; }
+    .gift-card-placeholder{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      opacity: .9;
+    }
+    .gift-card-number{
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .gift-card-note{
+      font-size: 12px;
+      line-height: 1.35;
+      opacity: .95;
+      text-align: center;
+      max-height: 4.5em;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+    .gifts-opened-list{
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,.14);
+    }
+    .gifts-opened-list h3{ margin: 0 0 10px; font-size: 15px; opacity: .9; }
+    #opened-gifts-list{ list-style: none; padding: 0; margin: 0; }
+    #opened-gifts-list li{
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      font-size: 14px;
+      opacity: .92;
+    }
+    #opened-gifts-list li:last-child{ border-bottom: none; }
     
   </style>
 </head>
@@ -350,7 +421,7 @@
 <body>
   <div class="wrap">
 
-    <!-- PIN -->
+    <!-- 1. PIN ekranı (ilk açılış): etiket, başlık, açıklama, placeholder, butonlar -->
     <div class="card fadeIn" id="lock">
       <div class="tag">🔒 Sadece “biz” için <span class="heart"></span></div>
       <div class="sp"></div>
@@ -373,7 +444,7 @@
     <!-- CONTENT -->
     <div id="content" class="hidden">
 
-      <!-- KAPAK BAŞLIK: üst köşelerde fotoğraflar, ortada başlık -->
+      <!-- 2. Kapak / Hero: pill, ana başlık, alt metin, tarih -->
       <div class="hero fadeIn">
         <div class="avatar-slot hero-avatar--left">
           <img class="avatar" id="avG" src="images/gulsah.jpg" alt="Gülşah">
@@ -394,26 +465,26 @@
         <div class="divider"></div>
       </div>
 
-      <!-- 1) Giriş -->
+      <!-- 3. Hoş geldin kartı (step1): etiket, başlık, paragraflar, buton -->
       <div class="card fadeIn" id="step1">
         <div class="tag">🤍 Hoş geldin bebiş <span class="heart"></span></div>
         <div class="sp"></div>
-        <h1>Merhaba</h1>
-        <p>Buraya kadar gerçekten okuduysan… bu benim için çok kıymetli.</p>
+        <h1>Merhaba dünya güzelim :)</h1>
+        <p>Buraya kadar gelmen benim için çok kıymetliii. eheh :)</p>
         <p class="muted">Şimdi sana küçük bir şey soracağım.</p>
         <div class="btns">
-          <button class="primary" id="go1">Devam et</button>
+          <button class="primary" id="go1">Buna Bas</button>
         </div>
       </div>
 
       <div class="sp"></div>
 
-      <!-- 2) Soru -->
+      <!-- 4. Minik test (step2): etiket, soru, uyarı, seçenekler, feedback, buton -->
       <div class="card hidden fadeIn" id="step2">
         <div class="tag">✨ Minik test <span class="heart"></span></div>
         <div class="sp"></div>
         <h1>Beni ne kadar seviyorsun?</h1>
-        <p class="muted">Dikkat: Tek doğru cevap var 😌</p>
+        <p class="muted">Dikkat: Tek doğru cevap var 😌 </p>
 
         <div class="btns" id="loveBtns">
           <button class="secondary love" data-choice="wrong">Çok (ama söyleyemem)</button>
@@ -429,15 +500,21 @@
 
       <div class="sp"></div>
 
-      <!-- 3) Devam metni -->
+      <!-- 5. Deftere sığmayanlar (step3): etiket, başlık, paragraflar, muted, buton -->
       <div class="card hidden fadeIn" id="step3">
-        <div class="tag">🫶 Deftere sığmayanlar <span class="heart"></span></div>
+        <div class="tag">🫶 Deftere sığmayanlar<span class="heart"></span></div>
         <div class="sp"></div>
         <h1>Kısa bir devam</h1>
 
-        <p>Kartona yazarken bazı yerlerde durdum… çünkü bazı cümleler kağıda değil, kalbe yazılıyor.</p>
-        <p>Seninle her şey büyük olmak zorunda değil: aynı masada oturmak, aynı şarkıyı defalarca dinlemek, bazen sadece “yan yana” olmak bile yeter.</p>
-        <p class="muted">Aşağıda bizim anlarımızdan birkaç parça var.</p>
+        <p>Kartona her şeyi sığdırmak istemedim. Burda yazmak istedim biraz da eheh.</p>
+        <p>Seninle geçirdiğim zaman bana her şeyin büyük olmak zorunda olmadığını gösterdi: beraber yürümek,aynı masada oturmak, aynı yerde bulunmak
+            , aynı şarkıyı defalarca dinlemek, arabada yol gitmek, bazen sadece yan yana olmak bile çok harika çok güzel hissettiren şeyler. 
+        Seni bazen sadece çok özlüyorum o an benimle ol benimle dur benim yaptığıma bak ben sana bakayım istiyorum.
+        Birbirimize dokunabilelim hep birlikte olalım istiyorum. Çünkü seni, seni düşünmeyi, sana değer vermeyi çok seviyorum ve sensiz olmak hiç hoşuma gitmiyor :/ 
+        Bunları isterken hiç yalnız hissetmiyorum. Çünkü senin de böyle düşündüğünü biliyorum.
+        Birbirimize olan bağımızı, sevgimizi çok net anlıyor ve hissediyorum. Ve bu his, zaman geçtikçe daha da güçleniyor.
+        </p>
+        <p class="muted">Şimmdi aşağıda bizim anlarımızdan görüntüler ve benim ufak yazdıklarım var.</p>
 
         <div class="btns">
           <button class="primary" id="go3">Fotoğraflara geç</button>
@@ -446,12 +523,12 @@
 
       <div class="sp"></div>
 
-      <!-- 4) Fotoğraflar -->
+      <!-- 6. Fotoğraf anıları (memories): etiket, başlık, alt metin, foto notları, Dilerim, his sorusu, buton -->
       <div class="card hidden fadeIn" id="memories">
         <div class="tag">📸 Bizden <span class="heart"></span></div>
         <div class="sp"></div>
         <h1>Bizim anlarımızdan bazıları…</h1>
-        <p>Fotoğraflar konuşsun, yazılar fısıldasın.</p>
+        <p>Fotoğraflara bakıp yazdıklarımı okuyabilirsinn eheh</p>
 
         <div class="gallery">
           <div>
@@ -466,9 +543,6 @@
 
         <div class="line"></div>
 
-        <p class="muted">Bu satırları yazarken kafamda hep aynı şarkı vardı… <b>Dilerim</b>.</p>
-
-        <div class="line"></div>
 
         <p><b>Şu an ne hissediyorsun?</b></p>
         <div class="btns">
@@ -486,13 +560,13 @@
 
       <div class="sp"></div>
 
-      <!-- 5) Final -->
+      <!-- 7. Final: etiket, başlık, paragraflar, Bugün bölümü, not -->
       <div class="card hidden fadeIn" id="final">
         <div class="tag">🌙 Final <span class="heart"></span></div>
         <div class="sp"></div>
         <h1>Bitti sandın ama…</h1>
-        <p>Kağıt bitti belki. Ama benim seninle ilgili niyetim bitmedi.</p>
-        <p><b>Seni seçiyorum bebiş.</b> Bugün, yarın… ve bir gün aynı evde sıradan bir günü birlikte yaşarken de.</p>
+        <p>Yazdıklarım bitti belki. Ama benim seninle ilgili niyetim bitmedi.</p>
+        <p><b>Hep benim olmanı, benden hiç vazgeçmemeni ve biz olmayı istiyorum. Sen benimsin bebiş :,)</b> Bugün, yarın… ve bir gün aynı evde sıradan bir günde de, hayallerimizi yaşarken de...</p>
 
         <div id="today" class="hidden" style="margin-top:18px;">
           <div class="line"></div>
@@ -503,6 +577,69 @@
         </div>
 
         <p class="muted" style="margin-top:14px;">(Bugünün fotoğrafını ekleyince bu bölüm kendiliğinden açılacak.)</p>
+      </div>
+
+      <div class="sp"></div>
+
+      <!-- 8. HEDİYE KARTLARI: bir karta dokun, numara çıksın; altta açtıkların listelenir. Notları JS içinde GIFT_NOTES dizisinden düzenle. -->
+      <div class="card fadeIn" id="gifts-section">
+        <!-- Etiket metni (örn. "Hediyelerin bebiş") - istersen değiştir -->
+        <div class="tag">🎁 Hediyelerin bebiş <span class="heart"></span></div>
+        <div class="sp"></div>
+        <!-- Başlık ve kısa açıklama - istersen bu metni değiştir -->
+        <h1>Hediyelerini aç</h1>
+        <p class="muted">Bir karta dokun; numarası çıksın. Kutudan o numaralı hediyeyi aç, notunu oku. Sırayla hepsini açabilirsin.</p>
+
+        <div class="gift-cards" id="gift-cards-container">
+          <!-- Hediye kartı 1 -->
+          <button type="button" class="gift-card closed" data-card-index="0" aria-label="Hediye kartı">
+            <span class="gift-card-placeholder">🎁</span>
+            <span class="gift-card-number"></span>
+            <span class="gift-card-note"></span>
+          </button>
+          <!-- Hediye kartı 2 -->
+          <button type="button" class="gift-card closed" data-card-index="1" aria-label="Hediye kartı">
+            <span class="gift-card-placeholder">🎁</span>
+            <span class="gift-card-number"></span>
+            <span class="gift-card-note"></span>
+          </button>
+          <!-- Hediye kartı 3 -->
+          <button type="button" class="gift-card closed" data-card-index="2" aria-label="Hediye kartı">
+            <span class="gift-card-placeholder">🎁</span>
+            <span class="gift-card-number"></span>
+            <span class="gift-card-note"></span>
+          </button>
+          <!-- Hediye kartı 4 -->
+          <button type="button" class="gift-card closed" data-card-index="3" aria-label="Hediye kartı">
+            <span class="gift-card-placeholder">🎁</span>
+            <span class="gift-card-number"></span>
+            <span class="gift-card-note"></span>
+          </button>
+          <!-- Hediye kartı 5 -->
+          <button type="button" class="gift-card closed" data-card-index="4" aria-label="Hediye kartı">
+            <span class="gift-card-placeholder">🎁</span>
+            <span class="gift-card-number"></span>
+            <span class="gift-card-note"></span>
+          </button>
+          <!-- Hediye kartı 6 -->
+          <button type="button" class="gift-card closed" data-card-index="5" aria-label="Hediye kartı">
+            <span class="gift-card-placeholder">🎁</span>
+            <span class="gift-card-number"></span>
+            <span class="gift-card-note"></span>
+          </button>
+          <!-- Hediye kartı 7 -->
+          <button type="button" class="gift-card closed" data-card-index="6" aria-label="Hediye kartı">
+            <span class="gift-card-placeholder">🎁</span>
+            <span class="gift-card-number"></span>
+            <span class="gift-card-note"></span>
+          </button>
+        </div>
+
+        <!-- Açılan hediyeler listesi - "Açtıkların:" başlığını istersen değiştir -->
+        <div class="gifts-opened-list hidden" id="gifts-opened-wrap">
+          <h3>Açtıkların:</h3>
+          <ul id="opened-gifts-list"></ul>
+        </div>
       </div>
 
     </div>
@@ -647,6 +784,49 @@
       d.toLocaleDateString("tr-TR", { day:"numeric", month:"long", year:"numeric" });
   };
   img.src = "images/bugun.jpg";
+
+  // =========================
+  // 5) HEDİYE KARTLARI - rastgele numara, not, liste
+  // =========================
+  // HEDIYE NOTLARI - Aşağıdaki 7 metni düzenle. Sıra: 1=Hediye 1, 2=Hediye 2, ... 7=Hediye 7.
+  // Kutudan hangi numarayı açacaksa o numaranın notu burada görünecek.
+  const GIFT_NOTES = [
+    "Hediye 1 için notunu buraya yaz.",   // Hediye 1 notu - düzenle
+    "Hediye 2 için notunu buraya yaz.",   // Hediye 2 notu - düzenle
+    "Hediye 3 için notunu buraya yaz.",   // Hediye 3 notu - düzenle
+    "Hediye 4 için notunu buraya yaz.",   // Hediye 4 notu - düzenle
+    "Hediye 5 için notunu buraya yaz.",   // Hediye 5 notu - düzenle
+    "Hediye 6 için notunu buraya yaz.",   // Hediye 6 notu - düzenle
+    "Hediye 7 için notunu buraya yaz."    // Hediye 7 notu - düzenle
+  ];
+
+  let giftPool = [1, 2, 3, 4, 5, 6, 7];
+  const openedGiftsListEl = document.getElementById('opened-gifts-list');
+  const giftsOpenedWrap = document.getElementById('gifts-opened-wrap');
+
+  document.querySelectorAll('.gift-card').forEach(card => {
+    card.addEventListener('click', () => {
+      if (!card.classList.contains('closed')) return;
+      if (giftPool.length === 0) return;
+
+      const idx = Math.floor(Math.random() * giftPool.length);
+      const num = giftPool[idx];
+      giftPool.splice(idx, 1);
+
+      const numEl = card.querySelector('.gift-card-number');
+      const noteEl = card.querySelector('.gift-card-note');
+      numEl.textContent = num;
+      noteEl.textContent = GIFT_NOTES[num - 1] || "";
+
+      card.classList.remove('closed');
+      card.classList.add('open');
+
+      const li = document.createElement('li');
+      li.textContent = "Hediye " + num;
+      openedGiftsListEl.appendChild(li);
+      giftsOpenedWrap.classList.remove('hidden');
+    });
+  });
 </script>
 </body>
 </html>
