@@ -82,8 +82,9 @@
 
     /* ===== KAPAK / BAŞLIK ===== */
     .hero{
-      text-align:center;
-      padding: 14px 0 0;
+      position: relative;
+      text-align: center;
+      padding: 56px 0 0;  /* üstte avatarlar için yer */
       margin-bottom: 14px;
     }
     .hero .pill{
@@ -99,34 +100,12 @@
       opacity:.92;
     }
 
-    /* Başlık satırı: avatar + isim + avatar, tek satırda ve taşma yok */
-    .title-row{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 14px;
-      margin-bottom: 6px;
-      max-width: 100%;
-      flex-wrap: nowrap;
-      padding: 0 4px;
-    }
-    .title-row h1{
-      margin: 0;
-      font-size: 34px;
-      letter-spacing: .4px;
-      white-space: nowrap;
-      flex: 0 1 auto;
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      line-height: 1.2;
-    }
-
-    .avatar-slot{
+    /* Üst köşelerdeki avatarlar: sayfanın sol üst / sağ üstü, kenarlardan biraz içerde */
+    .hero .avatar-slot{
+      position: absolute;
+      top: 14px;
       width: 46px;
       height: 46px;
-      flex-shrink: 0;
       border-radius: 50%;
       border: 2px solid rgba(255,255,255,.35);
       box-shadow: 0 10px 24px rgba(0,0,0,.25);
@@ -141,6 +120,26 @@
       transform: translate3d(0, 0, 0);
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
+    }
+    .hero .avatar-slot.hero-avatar--left{
+      left: 20px;
+    }
+    .hero .avatar-slot.hero-avatar--right{
+      right: 20px;
+    }
+
+    /* Başlık tek başına ortada, kırpılmadan sığsın */
+    .title-row{
+      margin-top: 14px;
+      margin-bottom: 6px;
+      padding: 0 8px;
+    }
+    .title-row h1{
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: .4px;
+      white-space: nowrap;
+      line-height: 1.2;
     }
 
     .avatar{
@@ -294,20 +293,25 @@
     }
     .heart:before{left:-5px;top:0}
     .heart:after{left:0;top:-5px}
-    /* Mobil: başlık ve avatarlar ekrana sığsın, kayık olmasın */
+    /* Mobil: başlık tam sığsın, üst köşe avatarları küçült */
     @media (max-width: 430px){
-      .title-row h1{ font-size: 26px; }
-      .title-row{ gap: 8px; }
-      .avatar-slot{ width: 42px; height: 42px; }
+      .title-row h1{ font-size: 24px; }
+      .hero .avatar-slot{ width: 42px; height: 42px; top: 12px; }
+      .hero .avatar-slot.hero-avatar--left{ left: 16px; }
+      .hero .avatar-slot.hero-avatar--right{ right: 16px; }
     }
     @media (max-width: 380px){
-      .title-row h1{ font-size: 22px; }
-      .title-row{ gap: 6px; padding: 0 2px; }
-      .avatar-slot{ width: 38px; height: 38px; }
+      .title-row h1{ font-size: 21px; }
+      .hero{ padding-top: 52px; }
+      .hero .avatar-slot{ width: 38px; height: 38px; top: 10px; }
+      .hero .avatar-slot.hero-avatar--left{ left: 14px; }
+      .hero .avatar-slot.hero-avatar--right{ right: 14px; }
     }
     @media (max-width: 340px){
-      .title-row h1{ font-size: 19px; }
-      .avatar-slot{ width: 34px; height: 34px; }
+      .title-row h1{ font-size: 18px; }
+      .hero .avatar-slot{ width: 34px; height: 34px; top: 10px; }
+      .hero .avatar-slot.hero-avatar--left{ left: 12px; }
+      .hero .avatar-slot.hero-avatar--right{ right: 12px; }
     }
 
     @supports (-webkit-touch-callout: none){
@@ -343,20 +347,20 @@
     <!-- CONTENT -->
     <div id="content" class="hidden">
 
-      <!-- KAPAK BAŞLIK (Avatarlar eklendi) -->
+      <!-- KAPAK BAŞLIK: üst köşelerde fotoğraflar, ortada başlık -->
       <div class="hero fadeIn">
-        <div class="pill">2. YIL DÖNÜMÜMÜZ <span class="heart"></span></div>
+        <div class="avatar-slot hero-avatar--left">
+          <img class="avatar" id="avG" src="images/gulsah.jpg" alt="Gülşah">
+          <div class="avatar-fallback">🤍</div>
+        </div>
+        <div class="avatar-slot hero-avatar--right">
+          <img class="avatar" id="avD" src="images/dogukan.jpg" alt="Doğukan">
+          <div class="avatar-fallback">🤍</div>
+        </div>
 
+        <div class="pill">2. YIL DÖNÜMÜMÜZ <span class="heart"></span></div>
         <div class="title-row">
-          <div class="avatar-slot">
-            <img class="avatar" id="avG" src="images/gulsah.jpg" alt="Gülşah">
-            <div class="avatar-fallback">🤍</div>
-          </div>
           <h1>Gülşah&nbsp;&amp;&nbsp;Doğukan</h1>
-          <div class="avatar-slot">
-            <img class="avatar" id="avD" src="images/dogukan.jpg" alt="Doğukan">
-            <div class="avatar-fallback">🤍</div>
-          </div>
         </div>
 
         <p class="sub">Bebişime küçük bir hatıra</p>
