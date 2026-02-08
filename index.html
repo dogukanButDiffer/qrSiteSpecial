@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Sürpriz 🤍</title>
 
   <style>
@@ -10,18 +10,18 @@
       /* === KIRMIZI / YILDÖNÜMÜ PALETİ === */
       --bg0:#15030a;      /* en koyu bordo */
       --bg1:#2a0712;      /* ana bordo */
-      --card:rgba(255,255,255,.06);
       --border:rgba(255,255,255,.14);
       --muted:rgba(255,255,255,.78);
       --txt:#fff;
 
       --accent:#ff4d6d;   /* romantik vurgu (çok parlak değil) */
       --accent2:#ff2f55;  /* biraz daha koyu */
-      --btnTxt:#12040a;
 
       --good:#bfffcf;
       --bad:#ffd1d1;
     }
+
+    html, body { -webkit-text-size-adjust: 100%; }
 
     /* === ARKA PLAN: KOYU BORDO + KALP DESENİ === */
     body{
@@ -29,6 +29,9 @@
       font-family:system-ui;
       color:var(--txt);
       min-height:100vh;
+
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
 
       /* katmanlar: kalp deseni + kırmızı gradient */
       background:
@@ -42,7 +45,11 @@
       background-attachment: fixed;
     }
 
-    .wrap{width:min(860px,92vw);padding:26px;margin:0 auto}
+    .wrap{
+      width:min(860px,92vw);
+      padding: calc(22px + env(safe-area-inset-top)) 26px calc(22px + env(safe-area-inset-bottom));
+      margin:0 auto;
+    }
 
     .card{
       background:rgba(255,255,255,.06);
@@ -55,17 +62,21 @@
 
     h1{margin:0 0 8px;font-size:28px}
     h2{margin:0 0 8px;font-size:20px}
-    p{margin:10px 0;line-height:1.65;opacity:.94}
+    p{margin:10px 0;line-height:1.65;opacity:.94;font-size:16px}
     .muted{opacity:.78;font-size:14px;color:var(--muted)}
 
     .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
 
     button{
-      border:0;border-radius:14px;padding:10px 14px;
-      cursor:pointer;font-weight:800;
+      border:0;
+      border-radius:16px;
+      padding:12px 16px;
+      cursor:pointer;
+      font-weight:800;
       transform: translateY(0);
       transition: transform .08s ease, filter .12s ease, opacity .12s ease;
       user-select:none;
+      -webkit-tap-highlight-color: transparent;
     }
     button:active{transform: translateY(1px)}
 
@@ -86,11 +97,16 @@
     button.secondary:hover{filter:brightness(1.08)}
 
     input{
-      width:100%;box-sizing:border-box;border-radius:14px;
+      width:100%;
+      box-sizing:border-box;
+      border-radius:14px;
       border:1px solid rgba(255,255,255,.18);
       background:rgba(255,255,255,.08);
       color:#fff;
-      padding:12px 14px;font-size:16px;outline:none
+      padding:12px 14px;
+      font-size:16px; /* iOS zoom olmasın */
+      outline:none;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .row{display:flex;gap:10px;align-items:center}
