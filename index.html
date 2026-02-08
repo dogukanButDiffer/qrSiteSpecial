@@ -577,12 +577,16 @@
         </div>
 
         <p class="muted" style="margin-top:14px;">(Bugünün fotoğrafını ekleyince bu bölüm kendiliğinden açılacak.)</p>
+
+        <div class="btns" style="margin-top:18px;">
+          <button class="primary" id="goGifts">Hediye zamanııı 🎁</button>
+        </div>
       </div>
 
       <div class="sp"></div>
 
-      <!-- 8. HEDİYE KARTLARI: bir karta dokun, numara çıksın; altta açtıkların listelenir. Notları JS içinde GIFT_NOTES dizisinden düzenle. -->
-      <div class="card fadeIn" id="gifts-section">
+      <!-- 8. HEDİYE KARTLARI: Final'daki butona basınca görünür. Bir karta dokun, numara çıksın; altta açtıkların listelenir. -->
+      <div class="card fadeIn hidden" id="gifts-section">
         <!-- Etiket metni (örn. "Hediyelerin bebiş") - istersen değiştir -->
         <div class="tag">🎁 Hediyelerin bebiş <span class="heart"></span></div>
         <div class="sp"></div>
@@ -770,6 +774,13 @@
   document.getElementById('go4').addEventListener('click', () => {
     final.classList.remove('hidden');
     final.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  // Final'daki "Hediye zamanııı" butonuna basınca hediye bölümü açılır, aşağı kaydırılır
+  const giftsSection = document.getElementById('gifts-section');
+  document.getElementById('goGifts').addEventListener('click', () => {
+    giftsSection.classList.remove('hidden');
+    giftsSection.scrollIntoView({behavior:'smooth', block:'start'});
   });
 
   // =========================
