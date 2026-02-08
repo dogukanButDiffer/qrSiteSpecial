@@ -7,14 +7,15 @@
 
   <style>
     :root{
-      --bg0:#15030a;
-      --bg1:#2a0712;
+      /* === KIRMIZI / YILDÖNÜMÜ PALETİ === */
+      --bg0:#15030a;      /* en koyu bordo */
+      --bg1:#2a0712;      /* ana bordo */
       --border:rgba(255,255,255,.14);
       --muted:rgba(255,255,255,.78);
       --txt:#fff;
 
-      --accent:#ff4d6d;
-      --accent2:#ff2f55;
+      --accent:#ff4d6d;   /* romantik vurgu */
+      --accent2:#ff2f55;  /* biraz daha koyu */
 
       --good:#bfffcf;
       --bad:#ffd1d1;
@@ -22,11 +23,13 @@
 
     html, body { -webkit-text-size-adjust: 100%; }
 
+    /* === ARKA PLAN: KOYU BORDO + KALP DESENİ === */
     body{
       margin:0;
       font-family:system-ui;
       color:var(--txt);
       min-height:100vh;
+
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
 
@@ -55,32 +58,50 @@
       backdrop-filter: blur(10px);
     }
 
-    /* ===== KAPAK BAŞLIK ===== */
+    /* ===== KAPAK / BAŞLIK ===== */
     .hero{
       text-align:center;
-      margin-bottom:22px;
+      padding: 14px 10px 0;
+      margin-bottom: 14px;
     }
-    .hero small{
-      display:block;
-      letter-spacing:.18em;
-      opacity:.75;
+    .hero .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.08);
       font-size:12px;
-      margin-bottom:6px;
+      letter-spacing:.16em;
+      opacity:.92;
     }
     .hero h1{
-      margin:0;
+      margin:14px 0 6px;
       font-size:34px;
-      letter-spacing:.5px;
+      letter-spacing:.4px;
     }
-    .hero p{
-      margin:6px 0 0;
+    .hero .sub{
+      margin:0;
       font-size:14px;
-      opacity:.8;
+      opacity:.82;
+    }
+    .hero .date{
+      margin-top:8px;
+      font-size:13px;
+      opacity:.75;
+      letter-spacing:.08em;
+    }
+    .hero .divider{
+      height:1px;
+      background:rgba(255,255,255,.14);
+      width:min(260px,70%);
+      margin:16px auto 0;
     }
 
     h1{margin:0 0 8px;font-size:28px}
     h2{margin:0 0 8px;font-size:20px}
-    p{margin:10px 0;line-height:1.65;font-size:16px}
+    p{margin:10px 0;line-height:1.65;opacity:.94;font-size:16px}
     .muted{opacity:.78;font-size:14px;color:var(--muted)}
 
     .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
@@ -91,128 +112,375 @@
       padding:12px 16px;
       cursor:pointer;
       font-weight:800;
-      transition:.1s;
+      transform: translateY(0);
+      transition: transform .08s ease, filter .12s ease, opacity .12s ease;
+      user-select:none;
       -webkit-tap-highlight-color: transparent;
     }
+    button:active{transform: translateY(1px)}
+
     button.primary{
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color:#fff;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      color:white;
+      box-shadow:0 10px 24px rgba(255,77,109,.18);
     }
+    button.primary:hover{filter:brightness(1.05)}
+
     button.secondary{
       background:rgba(255,255,255,.10);
       color:#fff;
       border:1px solid rgba(255,255,255,.12);
     }
+    button.secondary:hover{filter:brightness(1.08)}
 
     input{
       width:100%;
+      box-sizing:border-box;
       border-radius:14px;
       border:1px solid rgba(255,255,255,.18);
       background:rgba(255,255,255,.08);
       color:#fff;
       padding:12px 14px;
-      font-size:16px;
+      font-size:16px; /* iOS zoom olmasın */
+      outline:none;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .row{display:flex;gap:10px}
+    .row{display:flex;gap:10px;align-items:center}
     .hidden{display:none}
     .sp{height:14px}
     .line{height:1px;background:rgba(255,255,255,.12);margin:14px 0}
 
     .tag{
-      display:inline-flex;
-      padding:6px 10px;
-      border-radius:999px;
+      display:inline-flex;align-items:center;gap:8px;
+      padding:6px 10px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
       background:rgba(255,255,255,.08);
-      font-size:13px;
-      opacity:.9;
+      font-size:13px;opacity:.95
     }
 
-    .gallery{display:grid;gap:12px}
-    img{width:100%;border-radius:16px;border:1px solid rgba(255,255,255,.16)}
+    .toast{margin-top:10px;opacity:.92}
+    .ok{color:var(--good)}
+    .bad{color:var(--bad)}
 
-    .shake{animation:shake .2s}
+    .fadeIn{animation: fadeIn .25s ease-out}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+    .gallery{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
+    @media (min-width:720px){ .gallery{grid-template-columns:1fr 1fr} }
+
+    img{
+      width:100%;display:block;border-radius:16px;
+      border:1px solid rgba(255,255,255,.16)
+    }
+
+    .shake{animation: shake .22s ease-in-out}
     @keyframes shake{
       0%{transform:translateX(0)}
       25%{transform:translateX(-6px)}
       50%{transform:translateX(6px)}
+      75%{transform:translateX(-4px)}
       100%{transform:translateX(0)}
     }
+
+    /* küçük “kalp” ikonları */
+    .heart{
+      display:inline-block;
+      width:10px;height:10px;
+      background: var(--accent);
+      transform: rotate(45deg);
+      border-radius:2px;
+      margin:0 6px;
+      position: relative;
+      top:1px;
+      opacity:.9;
+    }
+    .heart:before,.heart:after{
+      content:"";
+      position:absolute;
+      width:10px;height:10px;
+      background: var(--accent);
+      border-radius:50%;
+    }
+    .heart:before{left:-5px;top:0}
+    .heart:after{left:0;top:-5px}
   </style>
 </head>
 
 <body>
-<div class="wrap">
+  <div class="wrap">
 
-  <!-- PIN -->
-  <div class="card" id="lock">
-    <h1>Devam etmek için PIN</h1>
-    <p class="muted">Bu sayfa sadece senin için.</p>
-    <div class="row">
-      <input id="pin" placeholder="PIN" />
-      <button class="primary" id="unlock">Aç</button>
-    </div>
-    <p class="muted" id="msg"></p>
-  </div>
+    <!-- PIN -->
+    <div class="card fadeIn" id="lock">
+      <div class="tag">🔒 Sadece “biz” için <span class="heart"></span></div>
+      <div class="sp"></div>
+      <h1>Devam etmek için PIN</h1>
+      <p class="muted">Bunu görebilen çok kişi olabilir… ama içeriği yalnızca sen görebil.</p>
 
-  <div id="content" class="hidden">
-
-    <!-- KAPAK -->
-    <div class="hero">
-      <small>2. YIL DÖNÜMÜMÜZ</small>
-      <h1>Gülşah & Doğukan</h1>
-      <p>16 Şubat</p>
-    </div>
-
-    <!-- GİRİŞ -->
-    <div class="card">
-      <span class="tag">🤍 Hoş geldin bebiş</span>
-      <h1>Merhaba</h1>
-      <p>Buraya kadar okuduysan… bu benim için çok kıymetli.</p>
-      <button class="primary" id="go1">Devam et</button>
-    </div>
-
-    <!-- SORU -->
-    <div class="card hidden" id="step2">
-      <h1>Beni ne kadar seviyorsun?</h1>
-      <p class="muted">Tek doğru cevap var 😌</p>
-      <div class="btns" id="loveBtns">
-        <button class="secondary" data="w">Çok</button>
-        <button class="secondary" data="w">Fazla</button>
-        <button class="secondary" data="c">Tarif edemeyecek kadar</button>
+      <div class="row">
+        <input id="pin" inputmode="numeric" placeholder="Örn: 2406" maxlength="12" />
+        <button class="primary" id="unlock">Aç</button>
       </div>
-      <p id="loveMsg" class="muted"></p>
-      <button class="primary hidden" id="go2">Devamı var</button>
+
+      <div class="btns">
+        <button class="secondary" id="hint">İpucu</button>
+        <button class="secondary" id="reset" title="Bu cihazda kayıtlıysa siler">Sıfırla</button>
+      </div>
+
+      <p class="toast" id="msg"></p>
     </div>
 
+    <!-- CONTENT -->
+    <div id="content" class="hidden">
+
+      <!-- KAPAK BAŞLIK (Yeni eklendi) -->
+      <div class="hero fadeIn">
+        <div class="pill">2. YIL DÖNÜMÜMÜZ <span class="heart"></span></div>
+        <h1>Gülşah & Doğukan</h1>
+        <p class="sub">Bebişime küçük bir hatıra</p>
+        <div class="date">16 ŞUBAT</div>
+        <div class="divider"></div>
+      </div>
+
+      <!-- 1) Giriş -->
+      <div class="card fadeIn" id="step1">
+        <div class="tag">🤍 Hoş geldin bebiş <span class="heart"></span></div>
+        <div class="sp"></div>
+        <h1>Merhaba</h1>
+        <p>Buraya kadar gerçekten okuduysan… bu benim için çok kıymetli.</p>
+        <p class="muted">Şimdi sana küçük bir şey soracağım.</p>
+        <div class="btns">
+          <button class="primary" id="go1">Devam et</button>
+        </div>
+      </div>
+
+      <div class="sp"></div>
+
+      <!-- 2) Soru -->
+      <div class="card hidden fadeIn" id="step2">
+        <div class="tag">✨ Minik test <span class="heart"></span></div>
+        <div class="sp"></div>
+        <h1>Beni ne kadar seviyorsun?</h1>
+        <p class="muted">Dikkat: Tek doğru cevap var 😌</p>
+
+        <div class="btns" id="loveBtns">
+          <button class="secondary love" data-choice="wrong">Çok (ama söyleyemem)</button>
+          <button class="secondary love" data-choice="wrong">Fazla (itiraf ediyorum)</button>
+          <button class="secondary love" data-choice="correct">Tarif edemeyecek kadar</button>
+        </div>
+
+        <p class="toast muted" id="loveHint"></p>
+        <div class="btns hidden" id="afterCorrect">
+          <button class="primary" id="go2">Tamam… devamı var</button>
+        </div>
+      </div>
+
+      <div class="sp"></div>
+
+      <!-- 3) Devam metni -->
+      <div class="card hidden fadeIn" id="step3">
+        <div class="tag">🫶 Deftere sığmayanlar <span class="heart"></span></div>
+        <div class="sp"></div>
+        <h1>Kısa bir devam</h1>
+
+        <p>Kartona yazarken bazı yerlerde durdum… çünkü bazı cümleler kağıda değil, kalbe yazılıyor.</p>
+        <p>Seninle her şey büyük olmak zorunda değil: aynı masada oturmak, aynı şarkıyı defalarca dinlemek, bazen sadece “yan yana” olmak bile yeter.</p>
+        <p class="muted">Aşağıda bizim anlarımızdan birkaç parça var.</p>
+
+        <div class="btns">
+          <button class="primary" id="go3">Fotoğraflara geç</button>
+        </div>
+      </div>
+
+      <div class="sp"></div>
+
+      <!-- 4) Fotoğraflar -->
+      <div class="card hidden fadeIn" id="memories">
+        <div class="tag">📸 Bizden <span class="heart"></span></div>
+        <div class="sp"></div>
+        <h1>Bizim anlarımızdan bazıları…</h1>
+        <p>Fotoğraflar konuşsun, yazılar fısıldasın.</p>
+
+        <div class="gallery">
+          <div>
+            <img src="images/ilk1.jpg" alt="Fotoğraf 1">
+            <p class="muted">Buraya kısa bir not. (Sonra birlikte yazacağız.)</p>
+          </div>
+          <div>
+            <img src="images/ilk2.jpg" alt="Fotoğraf 2">
+            <p class="muted">Buraya kısa bir not. (Sonra birlikte yazacağız.)</p>
+          </div>
+        </div>
+
+        <div class="line"></div>
+
+        <p class="muted">Bu satırları yazarken kafamda hep aynı şarkı vardı… <b>Dilerim</b>.</p>
+
+        <div class="line"></div>
+
+        <p><b>Şu an ne hissediyorsun?</b></p>
+        <div class="btns">
+          <button class="secondary feel">Gülümsüyorum</button>
+          <button class="secondary feel">Biraz duygulandım</button>
+          <button class="secondary feel">Kalbim pıt pıt</button>
+        </div>
+
+        <p class="toast muted hidden" id="feelReply" style="margin-top:12px;"></p>
+
+        <div class="btns" style="margin-top:18px;">
+          <button class="primary" id="go4">Son bir şey daha</button>
+        </div>
+      </div>
+
+      <div class="sp"></div>
+
+      <!-- 5) Final -->
+      <div class="card hidden fadeIn" id="final">
+        <div class="tag">🌙 Final <span class="heart"></span></div>
+        <div class="sp"></div>
+        <h1>Bitti sandın ama…</h1>
+        <p>Kağıt bitti belki. Ama benim seninle ilgili niyetim bitmedi.</p>
+        <p><b>Seni seçiyorum bebiş.</b> Bugün, yarın… ve bir gün aynı evde sıradan bir günü birlikte yaşarken de.</p>
+
+        <div id="today" class="hidden" style="margin-top:18px;">
+          <div class="line"></div>
+          <h2>Bugün 🤍</h2>
+          <p class="muted" id="date"></p>
+          <img src="images/bugun.jpg" alt="Bugünün fotoğrafı" />
+          <p class="muted" style="margin-top:10px;">Bu an burada kalsın istedim.</p>
+        </div>
+
+        <p class="muted" style="margin-top:14px;">(Bugünün fotoğrafını ekleyince bu bölüm kendiliğinden açılacak.)</p>
+      </div>
+
+    </div>
   </div>
-</div>
 
 <script>
-const PIN="1602";
-unlock.onclick=()=>{
-  if(pin.value===PIN){
-    lock.classList.add("hidden");
-    content.classList.remove("hidden");
-  }else{
-    msg.textContent="Yanlış PIN 🙈";
-    lock.classList.add("shake");
-    setTimeout(()=>lock.classList.remove("shake"),200);
-  }
-};
+  // =========================
+  // 1) PIN
+  // =========================
+  const CORRECT_PIN = "1602"; // <-- PIN'i buradan değiştir
 
-go1.onclick=()=>step2.classList.remove("hidden");
+  const lock = document.getElementById('lock');
+  const content = document.getElementById('content');
+  const pinInput = document.getElementById('pin');
+  const msg = document.getElementById('msg');
 
-loveBtns.onclick=e=>{
-  if(!e.target.dataset) return;
-  if(e.target.dataset==="c"){
-    loveMsg.textContent="Doğru cevap 🤍 Ben de seni tam olarak bu kadar seviyorum bebiş.";
-    go2.classList.remove("hidden");
-  }else{
-    loveMsg.textContent="Hımm… olmadı 😌 Bir daha dene.";
+  function unlock() {
+    const pin = pinInput.value.trim();
+    if (pin === CORRECT_PIN) {
+      localStorage.setItem('unlocked', 'yes');
+      lock.classList.add('hidden');
+      content.classList.remove('hidden');
+      msg.textContent = "";
+      document.getElementById('step1').scrollIntoView({behavior:'smooth', block:'start'});
+    } else {
+      msg.textContent = "PIN yanlış 🙈 Bir daha dene.";
+      pinInput.focus();
+      pinInput.select();
+      lock.classList.remove('shake'); void lock.offsetWidth; lock.classList.add('shake');
+    }
   }
-};
+
+  document.getElementById('unlock').addEventListener('click', unlock);
+  pinInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') unlock(); });
+
+  document.getElementById('hint').addEventListener('click', () => {
+    msg.textContent = "İpucu: Bizim için anlamlı bir tarih/sayı 😉";
+    pinInput.focus();
+  });
+
+  document.getElementById('reset').addEventListener('click', () => {
+    localStorage.removeItem('unlocked');
+    msg.textContent = "Bu cihaz için kilit sıfırlandı.";
+  });
+
+  if (localStorage.getItem('unlocked') === 'yes') {
+    lock.classList.add('hidden');
+    content.classList.remove('hidden');
+  }
+
+  // =========================
+  // 2) AKIŞ
+  // =========================
+  const step2 = document.getElementById('step2');
+  const step3 = document.getElementById('step3');
+  const memories = document.getElementById('memories');
+  const final = document.getElementById('final');
+
+  document.getElementById('go1').addEventListener('click', () => {
+    step2.classList.remove('hidden');
+    step2.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  // =========================
+  // 3) SORU: tek doğru cevap
+  // =========================
+  const loveHint = document.getElementById('loveHint');
+  const afterCorrect = document.getElementById('afterCorrect');
+  const loveBtns = document.getElementById('loveBtns');
+
+  function setLoveHint(text, cls) {
+    loveHint.classList.remove('ok','bad','muted');
+    loveHint.classList.add(cls);
+    loveHint.textContent = text;
+  }
+
+  loveBtns.querySelectorAll('.love').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const choice = btn.getAttribute('data-choice');
+
+      if (choice === 'correct') {
+        setLoveHint("Doğru cevap ✅ Ben de seni tam olarak bu kadar seviyorum bebiş. 🤍", "ok");
+        afterCorrect.classList.remove('hidden');
+
+        loveBtns.querySelectorAll('.love').forEach(b => {
+          b.style.opacity = (b.getAttribute('data-choice') === 'correct') ? "1" : ".55";
+        });
+
+      } else {
+        setLoveHint("Hımm… olmadı bebiş 😌 Biraz daha düşün. (Tek doğru var.)", "bad");
+        step2.classList.remove('shake'); void step2.offsetWidth; step2.classList.add('shake');
+      }
+    });
+  });
+
+  document.getElementById('go2').addEventListener('click', () => {
+    step3.classList.remove('hidden');
+    step3.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  document.getElementById('go3').addEventListener('click', () => {
+    memories.classList.remove('hidden');
+    memories.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  const feelReply = document.getElementById('feelReply');
+  document.querySelectorAll('.feel').forEach(btn => {
+    btn.addEventListener('click', () => {
+      feelReply.classList.remove('hidden');
+      feelReply.textContent = `Ben de bunları hazırlarken: "${btn.textContent}". 🤍`;
+    });
+  });
+
+  document.getElementById('go4').addEventListener('click', () => {
+    final.classList.remove('hidden');
+    final.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  // =========================
+  // 4) BUGÜN FOTOĞRAFI VARSA GÖSTER
+  // =========================
+  const img = new Image();
+  img.onload = () => {
+    const today = document.getElementById('today');
+    today.classList.remove('hidden');
+    const d = new Date();
+    document.getElementById("date").innerText =
+      d.toLocaleDateString("tr-TR", { day:"numeric", month:"long", year:"numeric" });
+  };
+  img.src = "images/bugun.jpg";
 </script>
-
 </body>
 </html>
