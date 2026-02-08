@@ -26,6 +26,9 @@
     html{
       height: -webkit-fill-available; 
       background: var(--bg0); /* üst/alt beyazlığı keser */
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100%;
     }
 
     /* === ARKA PLAN: KOYU BORDO + KALP DESENİ === */
@@ -34,6 +37,9 @@
       font-family:system-ui;
       color:var(--txt);
       min-height:100vh;
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100%;
 
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
@@ -58,8 +64,11 @@
 
     .wrap{
       width:min(860px,92vw);
+      max-width: 100%;
       padding: calc(22px + env(safe-area-inset-top)) 26px calc(22px + env(safe-area-inset-bottom));
       margin:0 auto;
+      overflow-x: hidden;
+      box-sizing: border-box;
     }
 
     .card{
@@ -123,25 +132,29 @@
       align-items:center;
       justify-content:center;
       backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
 
       box-sizing: border-box;
-      transform: translateZ(0); /* iOS sub-pixel kayıklığı azaltır */
+      transform: translate3d(0, 0, 0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
     }
     
     .avatar-slot.left{
       left: -18px;          /* sol köşeye net sabitle */
-      transform: translateZ(0);
+      transform: translate3d(0, 0, 0);
     }
     
     .avatar-slot.right{
       right: -18px;         /* sağ köşeye net sabitle */
-      transform: translateZ(0);
+      transform: translate3d(0, 0, 0);
     }
 
     .avatar{
       width:100%;
       height:100%;
       object-fit: cover;
+      object-position: center center;
       display:block;
     }
 
@@ -162,7 +175,8 @@
     /* === YENİ BİTİŞ === */
 
     .hero h1{
-      /* (name-wrap içindeki h1 override etti, ama burada kalsın diye bırakıyorum) */
+      /* name-wrap içindeki h1 ile override ediliyor */
+      margin: 0;
     }
     .hero .sub{
       margin:0;
