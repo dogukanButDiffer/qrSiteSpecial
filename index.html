@@ -249,6 +249,32 @@
     }
 
     .toast{margin-top:10px;opacity:.92}
+
+    /* Soru cevabı / his feedback’leri: belirgin kutu */
+    .feedback{
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 1.5;
+      opacity: 1;
+    }
+    .feedback.ok{
+      color: var(--good);
+      background: rgba(191, 255, 207, .22);
+      border: 1px solid rgba(191, 255, 207, .45);
+    }
+    .feedback.bad{
+      color: var(--bad);
+      background: rgba(255, 209, 209, .25);
+      border: 1px solid rgba(255, 209, 209, .5);
+    }
+    .feedback.feedback--neutral{
+      color: var(--txt);
+      background: rgba(255, 255, 255, .12);
+      border: 1px solid rgba(255, 255, 255, .2);
+    }
     .ok{color:var(--good)}
     .bad{color:var(--bad)}
 
@@ -395,7 +421,7 @@
           <button class="secondary love" data-choice="correct">Tarif edemeyecek kadar</button>
         </div>
 
-        <p class="toast muted" id="loveHint"></p>
+        <p class="toast" id="loveHint"></p>
         <div class="btns hidden" id="afterCorrect">
           <button class="primary" id="go2">Tamam… devamı var</button>
         </div>
@@ -451,7 +477,7 @@
           <button class="secondary feel">Kalbim pıt pıt</button>
         </div>
 
-        <p class="toast muted hidden" id="feelReply" style="margin-top:12px;"></p>
+        <p class="toast feedback feedback--neutral hidden" id="feelReply"></p>
 
         <div class="btns" style="margin-top:18px;">
           <button class="primary" id="go4">Son bir şey daha</button>
@@ -563,7 +589,7 @@
 
   function setLoveHint(text, cls) {
     loveHint.classList.remove('ok','bad','muted');
-    loveHint.classList.add(cls);
+    loveHint.classList.add('feedback', cls);
     loveHint.textContent = text;
   }
 
