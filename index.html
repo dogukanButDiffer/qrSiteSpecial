@@ -23,12 +23,17 @@
 
     html, body { -webkit-text-size-adjust: 100%; }
 
+    html{
+      height: 100%;
+      background: var(--bg0); /* üst/alt beyazlığı keser */
+    }
+
     /* === ARKA PLAN: KOYU BORDO + KALP DESENİ === */
     body{
       margin:0;
       font-family:system-ui;
       color:var(--txt);
-      min-height:100vh;
+      min-height:100svh;
 
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
@@ -104,7 +109,7 @@
 
     .avatar-slot{
       position:absolute;
-      top: 2px;              /* yazının üstüne hafif otursun */
+      top: -18px;            /* aynı yükseklik */
       width:46px;
       height:46px;
       border-radius:50%;
@@ -116,19 +121,19 @@
       align-items:center;
       justify-content:center;
       backdrop-filter: blur(6px);
-    }
-    .avatar-slot{
-      top: -16px;            /* üstte sabitle */
-    }
 
+      box-sizing: border-box;
+      transform: translateZ(0); /* iOS sub-pixel kayıklığı azaltır */
+    }
+    
     .avatar-slot.left{
-      left: -16px;           /* sol üste sabitle */
-      transform: none;
+      left: -18px;          /* sol köşeye net sabitle */
+      transform: translateZ(0);
     }
-
+    
     .avatar-slot.right{
-      right: -16px;          /* sağ üste sabitle */
-      transform: none;
+      right: -18px;         /* sağ köşeye net sabitle */
+      transform: translateZ(0);
     }
 
     .avatar{
@@ -297,6 +302,11 @@
         padding: 14px 46px;
       }
     }
+
+    @supports (-webkit-touch-callout: none){
+      body{ background-attachment: scroll; }
+    }
+    
   </style>
 </head>
 
