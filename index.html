@@ -41,6 +41,12 @@
       background-repeat: repeat, no-repeat, no-repeat, no-repeat;
       background-size: 180px 180px, auto, auto, auto;
       background-attachment: fixed;
+      
+      background-position:
+        center top,
+        20% 10%,
+        90% 20%,
+        0 0;
     }
 
     .wrap{
@@ -111,8 +117,19 @@
       justify-content:center;
       backdrop-filter: blur(6px);
     }
-    .avatar-slot.left{ left: 0; transform: translate(-18px, -18px); }
-    .avatar-slot.right{ right: 0; transform: translate(18px, -18px); }
+    .avatar-slot{
+      top: -16px;            /* üstte sabitle */
+    }
+
+    .avatar-slot.left{
+      left: -16px;           /* sol üste sabitle */
+      transform: none;
+    }
+
+    .avatar-slot.right{
+      right: -16px;          /* sağ üste sabitle */
+      transform: none;
+    }
 
     .avatar{
       width:100%;
