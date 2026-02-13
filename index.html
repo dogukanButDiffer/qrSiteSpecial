@@ -471,7 +471,7 @@
         <div class="sp"></div>
         <h1>Merhaba dünya güzelim :)</h1>
         <p>Buraya kadar gelmen benim için çok kıymetliii. eheh :)</p>
-        <p class="muted">Şimdi sana küçük bir şey soracağım.</p>
+        <p class="muted">Şimdi sana küçük bi şey sorucam</p>
         <div class="btns">
           <button class="primary" id="go1">Buna Bas</button>
         </div>
@@ -489,7 +489,7 @@
         <div class="btns" id="loveBtns">
           <button class="secondary love" data-choice="wrong">Çok (ama söyleyemem)</button>
           <button class="secondary love" data-choice="wrong">Fazla (itiraf ediyorum)</button>
-          <button class="secondary love" data-choice="correct">Tarif edemeyecek kadar</button>
+          <button class="secondary love" data-choice="correct">Tarif edemeyecek kadarrrr ağğağağa</button>
         </div>
 
         <p class="toast" id="loveHint"></p>
@@ -524,7 +524,7 @@
 
       <!-- 6. Fotoğraf anıları (memories): etiket, başlık, alt metin, foto notları, Dilerim, his sorusu, buton -->
       <div class="card hidden fadeIn" id="memories">
-        <div class="tag">📸 Bizden <span class="heart"></span></div>
+        <div class="tag">📸 Bizden<span class="heart"></span></div>
         <div class="sp"></div>
         <h1>Bizim anlarımızdan bazıları…</h1>
         <p>Fotoğraflara bakıp yazdıklarımı okuyabilirsinn eheh</p>
@@ -683,11 +683,11 @@
 
       <!-- 7. Final: etiket, başlık, paragraflar, Bugün bölümü, not -->
       <div class="card hidden fadeIn" id="final">
-        <div class="tag">🌙 Final <span class="heart"></span></div>
+        <div class="tag">🌙 Final<span class="heart"></span></div>
         <div class="sp"></div>
         <h1>Bitti sandın dimiiii</h1>
         <p>Sonuna geliyoruz belki ama bikaç bişey daha dicemm ve sürprizlere geçicez.</p>
-        <p><b>Kocamann 2 yılımız oldu birlikte bitanem.</b> İyi ki varsın, iyi ki benimsin, iyi ki biziz ♥️. Nice bizli yıllara. Yıldönümümüz kutlu olsunn.</p>
+        <p><b>Kocamann 2 yılımız oldu birlikte bitanem.</b> İyi ki varsın, iyi ki benimsin, iyi ki biziz ♥️ Nice bizli yıllara. Yıldönümümüz kutlu olsunn.</p>
 
         <div id="today" class="hidden" style="margin-top:18px;">
           <div class="line"></div>
@@ -801,7 +801,7 @@
   pinInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') unlock(); });
 
   document.getElementById('hint').addEventListener('click', () => {
-    msg.textContent = "İpucu: Bizim için anlamlı bir tarih/sayı 😉";
+    msg.textContent = "İpucu: Yıldönümü tarihimiz gün/ay 😉";
     pinInput.focus();
   });
 
@@ -860,7 +860,7 @@
       const choice = btn.getAttribute('data-choice');
 
       if (choice === 'correct') {
-        setLoveHint("Doğru cevap ✅ Ben de seni tam olarak bu kadar seviyorum bebiş. 🤍", "ok");
+        setLoveHint("Doğru cevap ✅ Ben de seni tam olarak bu kadar seviyorum bebiş. ♥️", "ok");
         afterCorrect.classList.remove('hidden');
 
         loveBtns.querySelectorAll('.love').forEach(b => {
@@ -888,7 +888,7 @@
   document.querySelectorAll('.feel').forEach(btn => {
     btn.addEventListener('click', () => {
       feelReply.classList.remove('hidden');
-      feelReply.textContent = `Ben de bunları hazırlarken: "${btn.textContent}". 🤍`;
+      feelReply.textContent = `Ben de bunları hazırlarken: "${btn.textContent}". ♥️`;
     });
   });
 
